@@ -8,12 +8,27 @@ pipeline {
         echo "${TEST_USER_PSW}"
       }
     }
+    stage('Deploy') {
+      steps {
+        sh '''    stage(\'Deploy\') {
+      options {
+        timeout(time: 1, unit: \'MINUTES\') 
+      }
+      input {
+        message "Should we continue?"
+      }
+      steps {
+        echo "Continuing with deployment"
+      }
+    }'''
+        }
+      }
+    }
+    environment {
+      MY_NAME = 'Mary'
+      TEST_USER = credentials('test-user')
+    }
+    parameters {
+      string(name: 'Name', defaultValue: 'whoever you are', description: 'Who should I say hi to?')
+    }
   }
-  environment {
-    MY_NAME = 'Mary'
-    TEST_USER = credentials('test-user')
-  }
-  parameters {
-    string(name: 'Name', defaultValue: 'whoever you are', description: 'Who should I say hi to?')
-  }
-}
